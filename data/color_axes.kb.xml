@@ -1,0 +1,43 @@
+  <KinBody name="color_axes">
+
+  <Body type="static" name="pos_test">
+    <Geom type="sphere">
+      <radius>0.01</radius>
+      <diffusecolor>0.3 0.3 0.3</diffusecolor>
+    </Geom>
+  </Body>
+
+    <Body type="static" name="x_axis">
+      <Translation> 0.05 0 0</Translation>
+      <rotationaxis>0 0 1 90</rotationaxis>
+      <Geom type="cylinder">
+        <radius>0.005</radius>
+        <height>0.1</height>
+        <diffuseColor>1 0 0</diffuseColor>
+      </Geom>
+    </Body>
+
+    <Body type="static" name="y_axis">
+      <Translation>0 0.05 0</Translation>
+      <Geom type="cylinder">
+        <radius>0.005</radius>
+        <height>0.1</height>
+        <diffuseColor>0 1 0</diffuseColor>
+      </Geom>
+    </Body>
+
+    <Body type="static" name="z_axis">
+      <Translation>0 0 0.05</Translation>
+      <rotationaxis>1 0 0 90</rotationaxis>
+      <Geom type="cylinder">
+        <radius>0.005</radius>
+        <height>0.1</height>
+        <diffuseColor>0 0 1</diffuseColor>
+      </Geom>
+    </Body>
+
+   <!--<translation>0.05 0.05 0.05</translation> -->
+
+
+  </KinBody>    
+  
