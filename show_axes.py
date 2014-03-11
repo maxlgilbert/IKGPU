@@ -1,3 +1,4 @@
+#!/usr/bin/python
 
 
 def setup_openrave():
