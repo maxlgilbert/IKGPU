@@ -2,8 +2,8 @@
 
 
 def setup_openrave():
-    # this quirky statement is needed for OpenRave 0.8
-    __builtins__.__openravepy_version__ = '0.8'
+    # this is needed for OpenRave 0.8:
+    #__builtins__.__openravepy_version__ = '0.8'
    
     import openravepy as rave
     or_obj = rave.Environment()
@@ -29,14 +29,52 @@ def show_ground_plane(or_obj):
 
 
 
-def spawn_kinbody(or_obj, filename, pose = None):
+def spawn_kinbody(kb_name, or_obj, filename, pose = None):
     import numpy as np
 
     kb_ptr = or_obj.ReadKinBodyXMLFile(filename)
+    kb_ptr.SetName(kb_name)
     or_obj.AddKinBody(kb_ptr)
     if pose is not None:
         kb_ptr.SetTransform(np.array(pose))
     return kb_ptr
+
+
+
+def get_axes_kb_name(name_identifier):
+    return 'axes_' + name_identifier
+
+
+def show_axes(axes_identifier, pose, or_obj, type = 'small'):
+    kb_name = get_axes_kb_name(axes_identifier)
+    axes_kb = or_obj.GetKinBody(kb_name)
+    if axes_kb is None: # spawn the axes if they don't already exist
+        if type == 'small':
+            axes_kb = spawn_kinbody(kb_name, or_obj, 'data/or_smallaxes.kb.xml', pose)
+        elif type == 'big':
+            axes_kb = spawn_kinbody(kb_name, or_obj, 'data/or_axes.kb.xml', pose)
+        elif type == 'colored':
+            axes_kb = spawn_kinbody(kb_name, or_obj, 'data/color_axes.kb.xml', pose)
+        else:
+            print 'ERROR: unknown axes type', type
+            return None
+    else:
+        # already found this kinbody, just set its pose
+        axes_kb.SetTransform(pose)
+        axes_kb.SetVisible(True)
+    return True
+
+
+
+def hide_axes(axes_identifier, or_env):
+    from numpy import identity, array
+
+    axes_kb = or_env.GetKinBody(get_axes_kb_name(axes_identifier))
+    if axes_kb is None: 
+        print 'ERROR: no axes found by name:', axes_name
+        return None
+    axes_kb.SetVisible(False)
+    return True
 
 
 
